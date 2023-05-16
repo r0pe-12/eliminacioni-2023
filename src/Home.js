@@ -13,7 +13,7 @@ const Home = (props) => {
         displayCount = length;
     }
 
-    const [visible, setVisible] = useState(10);
+    const [visible, setVisible] = useState(9);
 
     const loadMore = () => {
         setVisible(prevState => {
@@ -36,7 +36,7 @@ const Home = (props) => {
 
     return (
         <>
-            <main className={'container mt-3'}>
+            <main className={'container my-3'}>
                 <header>
                     <h1 className={'text-center'}>Products</h1>
                 </header>
@@ -48,6 +48,11 @@ const Home = (props) => {
                         ))}
                     </div>
                 </section>
+                <hr/>
+                <div className={'row align-items-center justify-content-between'}>
+                    {visible >= length ? null  : <button className={'col btn btn-outline-primary'} onClick={loadMore}>Load more</button>}
+                    <div className="col text-end">{`${visible} of ${length}`}</div>
+                </div>
             </main>
         </>
     );
