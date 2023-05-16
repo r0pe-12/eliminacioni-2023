@@ -1,4 +1,4 @@
-import {Link, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 const NavBar = (props) => {
     let navigate = useNavigate();
@@ -7,7 +7,7 @@ const NavBar = (props) => {
         navigate(route);
     }
     return (
-        <nav className="navbar navbar-expand-lg" style={{minHeight: 80, borderBottom: '1px solid #F2F4F7'}}>
+        <nav className="navbar navbar-expand-lg sticky-top bg-body" style={{minHeight: 80, borderBottom: '1px solid #F2F4F7'}}>
             <div className="container">
                 <a className="navbar-brand" href="/">Web Store</a>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse"

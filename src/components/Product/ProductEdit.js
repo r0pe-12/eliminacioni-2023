@@ -1,4 +1,4 @@
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {useSelector} from "react-redux";
 import NavBar from "../UI/NavBar";
 import BackButton from "../UI/BackButton";
@@ -8,7 +8,11 @@ const ProductEdit = () => {
     let params = useParams();
     const id = params.id;
 
+    let navigate = useNavigate();
+
     const product = useSelector(state => state.products.filter(products => products.id === parseInt(id))[0]);
+
+    const [editProd, setEditProd] = useState(product);
 
     const [pic, setPic] = useState(product.thumbnail);
 
@@ -35,6 +39,30 @@ const ProductEdit = () => {
         setCharLeft(400 - evt.target.value.toString().length)
     }
 
+    const formChangeHandler = evt => {
+        const name = evt.target.name;
+        const value = evt.target.value;
+        setEditProd((prevState) => {
+            return {...prevState, [name]: value}
+        })
+    }
+
+    const formSubmitHandler = evt => {
+        evt.preventDefault();
+
+        fetch(`https://dummyjson.com/products/${id}`, {
+            method: 'PUT', /* or PATCH */
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                ...editProd
+            })
+        })
+            .then(res => res.json())
+            .then(console.log);
+
+        navigate('/');
+    }
+
     return (
         <>
             <NavBar id={id} edit={true}/>
@@ -49,7 +77,7 @@ const ProductEdit = () => {
                                     <div className={'row'}>
                                         {product.images.map((img, id) => {
                                             return (
-                                                <div className={'image-wrapper col mx-2 d-flex'}
+                                                <div key={id} className={'image-wrapper col mx-2 d-flex'}
                                                      onClick={() => {
                                                          changePicHandler(id)
                                                      }}
@@ -69,28 +97,32 @@ const ProductEdit = () => {
                     </div>
                     <hr/>
                     <div className={'my-5'}>
-                        <form className={'row'}>
+                        <form className={'row'} onSubmit={formSubmitHandler}>
                             <div className={'form-group mb-3 col-12 col-lg-6'}>
                                 <label htmlFor="title" className={'form-label'}>Title</label>
-                                <input type="text" className={'form-control'} name={'title'} value={product.title}/>
+                                <input onChange={formChangeHandler} type="text" className={'form-control'}
+                                       name={'title'} value={editProd.title}/>
                             </div>
 
                             <div className={'form-group mb-3 col-12 col-lg-6'}>
                                 <label htmlFor="brand" className={'form-label'}>Brand</label>
-                                <input type="text" className={'form-control'} name={'brand'} value={product.brand}/>
+                                <input onChange={formChangeHandler} type="text" className={'form-control'}
+                                       name={'brand'} value={editProd.brand}/>
                             </div>
 
                             <div className={'form-group mb-3 col-12 col-lg-4'}>
                                 <label htmlFor="stock" className={'form-label'}>Stock</label>
-                                <input type="number" className={'form-control'} name={'stock'} value={product.stock}/>
+                                <input onChange={formChangeHandler} type="number" className={'form-control'}
+                                       name={'stock'} value={editProd.stock}/>
                             </div>
 
                             <div className={'form-group mb-3 col-12 col-lg-4'}>
                                 <label htmlFor="discountPercentage" className={'form-label'}>Discount Percentage</label>
                                 <div className={'input-group'}>
                                     <span className={'input-group-text'}>%</span>
-                                    <input type="number" className={'form-control'} name={'discountPercentage'}
-                                           value={product.discountPercentage}/>
+                                    <input onChange={formChangeHandler} type="number" className={'form-control'}
+                                           name={'discountPercentage'}
+                                           value={editProd.discountPercentage}/>
                                 </div>
                             </div>
 
@@ -98,18 +130,20 @@ const ProductEdit = () => {
                                 <label htmlFor="price" className={'form-label'}>Price</label>
                                 <div className={'input-group'}>
                                     <span className="input-group-text">$</span>
-                                    <input type="number" className={'form-control'} name={'price'}
-                                           value={product.price}/>
+                                    <input onChange={formChangeHandler} type="number" className={'form-control'}
+                                           name={'price'}
+                                           value={editProd.price}/>
                                 </div>
                             </div>
 
                             <div className={'form-group mb-3 col-12'}>
                                 <label htmlFor="exampleDataList" className="form-label">Datalist example</label>
-                                <input className="form-control" list="datalistOptions" name={'category'}
-                                       placeholder={product.category}/>
+                                <input onChange={formChangeHandler} className="form-control" list="datalistOptions"
+                                       name={'category'}
+                                       placeholder={editProd.category}/>
                                 <datalist id="datalistOptions">
-                                    {categories.map(cat => {
-                                        return <option value={cat}/>
+                                    {categories.map((cat, id) => {
+                                        return <option key={id} value={cat}/>
                                     })}
                                 </datalist>
                             </div>
@@ -117,12 +151,19 @@ const ProductEdit = () => {
                             <div className={'mb-3 col form-group'}>
                                 <label htmlFor="description" className={'form-label'}>Description</label>
                                 <textarea name="description" onChange={(evt) => {
+                                    formChangeHandler(evt);
                                     textAreaChangeHandler(evt)
-                                }} value={product.description} id="bio" rows="10"
+                                }} value={editProd.description} id="bio" rows="10"
                                           className={'form-control'}>
 
                                 </textarea>
                                 <p className={'text-secondary py-2'}>{charLeft} characters left</p>
+                            </div>
+
+                            <div className={'row'}>
+                                <div className={'col-12 col-lg-6'}>
+                                    <button className={'btn1'} type={"submit"}>Save changes</button>
+                                </div>
                             </div>
                         </form>
                     </div>

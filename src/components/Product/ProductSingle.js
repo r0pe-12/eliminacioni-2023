@@ -32,7 +32,7 @@ const ProductSingle = (props) => {
                                     <div className={'row'}>
                                         {product.images.map((img, id) => {
                                             return (
-                                                <div className={'image-wrapper col col-lg-12 mx-2 mx-lg-0 d-flex'}
+                                                <div key={id} className={'image-wrapper col col-lg-12 mx-2 mx-lg-0 d-flex'}
                                                      onClick={() => {
                                                          changePicHandler(id)
                                                      }}
