@@ -1,6 +1,7 @@
 import {useSelector} from "react-redux";
 import {useState} from "react";
 import ProductItem from "./components/ProductItem";
+import NavBar from "./components/UI/NavBar";
 
 const Home = (props) => {
     const products = useSelector(state => state.products);
@@ -36,6 +37,7 @@ const Home = (props) => {
 
     return (
         <>
+            <NavBar/>
             <main className={'container my-3'}>
                 <header>
                     <h1 className={'text-center'}>Products</h1>

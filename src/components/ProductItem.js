@@ -1,8 +1,10 @@
 import Card from "./UI/Card";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 const ProductItem = (props) => {
     const prod = props.item;
+
+    let navigate = useNavigate();
 
     return (
         <Card>
@@ -17,8 +19,8 @@ const ProductItem = (props) => {
                 </div>
                 <div className={'col-4'}>
                     <div className={'row g-3'}>
-                        <button className={'btn btn-light'}><Link to={`/product/${prod.id}`}>View Details</Link></button>
-                        <button className={'btn btn-outline-secondary'}><Link to={'/'}>Edit</Link></button>
+                        <button onClick={() => {navigate(`/product/${prod.id}`)}} className={'btn btn-light'}>View Details</button>
+                        <button onClick={() => {navigate('/')}} className={'btn btn-outline-secondary'}>Edit</button>
                         <button className={'btn btn-outline-danger'}>Delete</button>
                     </div>
                 </div>

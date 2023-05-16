@@ -2,6 +2,7 @@ import {useParams} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {useState} from "react";
 import BackButton from "../UI/BackButton";
+import NavBar from "../UI/NavBar";
 
 const ProductSingle = (props) => {
     let params = useParams();
@@ -19,6 +20,7 @@ const ProductSingle = (props) => {
 
     return (
         <>
+            <NavBar id={id}/>
             <BackButton route={'/'}/>
             <main className={'container my-3'}>
                 <section>
