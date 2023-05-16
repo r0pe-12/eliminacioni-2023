@@ -28,7 +28,7 @@ const NavBar = (props) => {
                     <div className="d-flex">
                         <button className="btn btn-light me-4"
                                 onClick={(e) => {
-                                    handleClick(e, '/')
+                                    handleClick(e, '/product/add')
                                 }}>New product
                         </button>
                         {props.id &&

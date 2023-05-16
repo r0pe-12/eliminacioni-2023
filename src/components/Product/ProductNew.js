@@ -1,26 +1,15 @@
-import {useNavigate, useParams} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {useSelector} from "react-redux";
 import NavBar from "../UI/NavBar";
 import BackButton from "../UI/BackButton";
 import {useEffect, useState} from "react";
 
-const ProductEdit = () => {
-    let params = useParams();
-    const id = params.id;
-
+const ProductNew = () => {
     let navigate = useNavigate();
 
-    const product = useSelector(state => state.products.filter(products => products.id === parseInt(id))[0]);
-
-    const [editProd, setEditProd] = useState(product);
-
-    const [pic, setPic] = useState(product.thumbnail);
+    const [prod, setProd] = useState([]);
 
     const [categories, setCategories] = useState([]);
-
-    const changePicHandler = (id) => {
-        setPic(product.images[id]);
-    }
 
     // Function to collect data
     const getApiData = async () => {
@@ -33,7 +22,7 @@ const ProductEdit = () => {
         getApiData()
     }, []);
 
-    const [charLeft, setCharLeft] = useState(400 - product.description.toString().length);
+    const [charLeft, setCharLeft] = useState(400);
 
     const textAreaChangeHandler = evt => {
         setCharLeft(400 - evt.target.value.toString().length)
@@ -42,7 +31,7 @@ const ProductEdit = () => {
     const formChangeHandler = evt => {
         const name = evt.target.name;
         const value = evt.target.value;
-        setEditProd((prevState) => {
+        setProd((prevState) => {
             return {...prevState, [name]: value}
         })
     }
@@ -50,11 +39,11 @@ const ProductEdit = () => {
     const formSubmitHandler = evt => {
         evt.preventDefault();
 
-        fetch(`https://dummyjson.com/products/${id}`, {
-            method: 'PUT', /* or PATCH */
+        fetch('https://dummyjson.com/products/add', {
+            method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                ...editProd
+                ...prod
             })
         })
             .then(res => res.json())
@@ -65,55 +54,28 @@ const ProductEdit = () => {
 
     return (
         <>
-            <NavBar id={id} edit={true}/>
+            <NavBar/>
             <BackButton route={'/'}/>
             <main className={'container my-3'}>
                 <section>
-                    <div className={'row my-5'}>
-                        <div className={'col-12'}>
-                            <div className={'row flex-column-reverse'}>
-                                <div className={'col-12 image-preview overflow-scroll mt-4'}
-                                     style={{maxHeight: '400px'}}>
-                                    <div className={'row'}>
-                                        {product.images.map((img, id) => {
-                                            return (
-                                                <div key={id} className={'image-wrapper col mx-2 d-flex'}
-                                                     onClick={() => {
-                                                         changePicHandler(id)
-                                                     }}
-                                                >
-                                                    <div className={'overlay'}></div>
-                                                    <img src={img.toString()} alt="" className={'img-fluid'}/>
-                                                </div>
-                                            )
-                                        })}
-                                    </div>
-                                </div>
-                                <div className={'col-12 text-center'}>
-                                    <img src={pic} alt="" className={'img-fluid'}/>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <hr/>
                     <div className={'my-5'}>
                         <form className={'row'} onSubmit={formSubmitHandler}>
                             <div className={'form-group mb-3 col-12 col-lg-6'}>
                                 <label htmlFor="title" className={'form-label'}>Title</label>
                                 <input onChange={formChangeHandler} type="text" className={'form-control'}
-                                       name={'title'} value={editProd.title}/>
+                                       name={'title'} value={prod.title}/>
                             </div>
 
                             <div className={'form-group mb-3 col-12 col-lg-6'}>
                                 <label htmlFor="brand" className={'form-label'}>Brand</label>
                                 <input onChange={formChangeHandler} type="text" className={'form-control'}
-                                       name={'brand'} value={editProd.brand}/>
+                                       name={'brand'} value={prod.brand}/>
                             </div>
 
                             <div className={'form-group mb-3 col-12 col-lg-4'}>
                                 <label htmlFor="stock" className={'form-label'}>Stock</label>
                                 <input onChange={formChangeHandler} type="number" className={'form-control'}
-                                       name={'stock'} value={editProd.stock}/>
+                                       name={'stock'} value={prod.stock}/>
                             </div>
 
                             <div className={'form-group mb-3 col-12 col-lg-4'}>
@@ -122,7 +84,7 @@ const ProductEdit = () => {
                                     <span className={'input-group-text'}>%</span>
                                     <input onChange={formChangeHandler} min={0} max={100.00} step={0.01} type="number" className={'form-control'}
                                            name={'discountPercentage'}
-                                           value={editProd.discountPercentage}/>
+                                           value={prod.discountPercentage}/>
                                 </div>
                             </div>
 
@@ -132,7 +94,7 @@ const ProductEdit = () => {
                                     <span className="input-group-text">$</span>
                                     <input onChange={formChangeHandler} min={0} type="number" className={'form-control'}
                                            name={'price'}
-                                           value={editProd.price}/>
+                                           value={prod.price}/>
                                 </div>
                             </div>
 
@@ -140,7 +102,7 @@ const ProductEdit = () => {
                                 <label htmlFor="exampleDataList" className="form-label">Categories</label>
                                 <input onChange={formChangeHandler} className="form-control" list="datalistOptions"
                                        name={'category'}
-                                       placeholder={editProd.category}/>
+                                       placeholder={prod.category}/>
                                 <datalist id="datalistOptions">
                                     {categories.map((cat, id) => {
                                         return <option key={id} value={cat}/>
@@ -153,7 +115,7 @@ const ProductEdit = () => {
                                 <textarea name="description" onChange={(evt) => {
                                     formChangeHandler(evt);
                                     textAreaChangeHandler(evt)
-                                }} value={editProd.description} id="bio" rows="10"
+                                }} value={prod.description} id="bio" rows="10"
                                           className={'form-control'}>
 
                                 </textarea>
@@ -162,7 +124,7 @@ const ProductEdit = () => {
 
                             <div className={'row'}>
                                 <div className={'col-12 col-lg-6'}>
-                                    <button className={'btn1'} type={"submit"}>Save changes</button>
+                                    <button className={'btn1'} type={"submit"}>Create</button>
                                 </div>
                             </div>
                         </form>
@@ -174,4 +136,4 @@ const ProductEdit = () => {
 
 }
 
-export default ProductEdit;
+export default ProductNew;
