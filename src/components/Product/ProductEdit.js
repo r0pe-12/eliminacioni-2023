@@ -120,7 +120,7 @@ const ProductEdit = () => {
                                 <label htmlFor="discountPercentage" className={'form-label'}>Discount Percentage</label>
                                 <div className={'input-group'}>
                                     <span className={'input-group-text'}>%</span>
-                                    <input onChange={formChangeHandler} type="number" className={'form-control'}
+                                    <input onChange={formChangeHandler} min={0} max={100.00} step={0.01} type="number" className={'form-control'}
                                            name={'discountPercentage'}
                                            value={editProd.discountPercentage}/>
                                 </div>
@@ -130,7 +130,7 @@ const ProductEdit = () => {
                                 <label htmlFor="price" className={'form-label'}>Price</label>
                                 <div className={'input-group'}>
                                     <span className="input-group-text">$</span>
-                                    <input onChange={formChangeHandler} type="number" className={'form-control'}
+                                    <input onChange={formChangeHandler} min={0} type="number" className={'form-control'}
                                            name={'price'}
                                            value={editProd.price}/>
                                 </div>
