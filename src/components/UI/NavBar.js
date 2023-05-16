@@ -19,24 +19,29 @@ const NavBar = (props) => {
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                         <li className="nav-item">
                             <button className="nav-link" aria-current="page"
-                            onClick={(e) => {
-                                handleClick(e, '/')
-                            }}>Početna
+                                    onClick={(e) => {
+                                        handleClick(e, '/')
+                                    }}>Početna
                             </button>
                         </li>
                     </ul>
                     <div className="d-flex">
                         <button className="btn btn-light me-4"
-                        onClick={(e) => {
-                            handleClick(e, '/')
-                        }}>New product
+                                onClick={(e) => {
+                                    handleClick(e, '/')
+                                }}>New product
                         </button>
                         {props.id &&
                             <>
-                                <button className={'btn btn-outline-secondary me-2'} onClick={() => {
-                                    navigate('/')
-                                }}>Edit
-                                </button>
+                                {props.edit ? <button className={'btn btn-outline-secondary me-2'} onClick={() => {
+                                        navigate(`/product/${props.id}`)
+                                    }}>View details
+                                    </button> :
+                                    <button className={'btn btn-outline-secondary me-2'} onClick={() => {
+                                        navigate(`/product/edit/${props.id}`)
+                                    }}>Edit
+                                    </button>
+                                }
                                 <button className={'btn btn-outline-danger'}>Delete</button>
                             </>
                         }

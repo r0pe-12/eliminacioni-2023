@@ -37,6 +37,8 @@ button > a {
 
     border: lightslategrey solid 1px;
     border-radius: 10px;
+
+    cursor: pointer;
 }
 
 .image-wrapper > img {
@@ -128,7 +130,7 @@ button > a {
 }
 
 .back-button {
-    position: absolute;
+    position: fixed;
     right: 30px;
     bottom: 30px;
 }

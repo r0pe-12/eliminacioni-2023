@@ -1,5 +1,5 @@
 import Card from "./UI/Card";
-import {Link, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 const ProductItem = (props) => {
     const prod = props.item;
@@ -20,7 +20,7 @@ const ProductItem = (props) => {
                 <div className={'col-4'}>
                     <div className={'row g-3'}>
                         <button onClick={() => {navigate(`/product/${prod.id}`)}} className={'btn btn-light'}>View Details</button>
-                        <button onClick={() => {navigate('/')}} className={'btn btn-outline-secondary'}>Edit</button>
+                        <button onClick={() => {navigate(`/product/edit/${prod.id}`)}} className={'btn btn-outline-secondary'}>Edit</button>
                         <button className={'btn btn-outline-danger'}>Delete</button>
                     </div>
                 </div>
