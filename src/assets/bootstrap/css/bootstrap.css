@@ -21,6 +21,11 @@
     background-color: gainsboro !important;
 }
 
+button > a {
+    color: inherit;
+    text-decoration: none;
+}
+
 /*END---CUSTOM CLASSES*/
 
 /*!
