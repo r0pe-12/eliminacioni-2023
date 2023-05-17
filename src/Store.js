@@ -16,14 +16,8 @@ const productSlice = createSlice({
             state.products = state.products.filter(product => product.id != action.payload);
         },
         updateProduct: (state, action) => {
-            const targetIndex = state.findIndex(product => product.id === action.payload.id);
-            if(targetIndex !== -1){
-                state[targetIndex] = action.payload;
-            }
-            else{
-                console.log("failed to update")
-            }
-
+            const targetIndex = state.products.findIndex(product => product.id == action.payload.id);
+            state.products[targetIndex] = action.payload;
         }
     },
 });

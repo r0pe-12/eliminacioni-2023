@@ -1,14 +1,17 @@
 import {useNavigate, useParams} from "react-router-dom";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import NavBar from "../UI/NavBar";
 import BackButton from "../UI/BackButton";
 import {useEffect, useState} from "react";
+import {updateProduct} from "../../Store";
 
 const ProductEdit = () => {
     let params = useParams();
     const id = params.id;
 
     let navigate = useNavigate();
+
+    const dispatch = useDispatch();
 
     const product = useSelector(state => state.products.products.filter(products => products.id === parseInt(id))[0]);
 
@@ -58,7 +61,8 @@ const ProductEdit = () => {
             })
         })
             .then(res => res.json())
-            .then(console.log);
+
+        dispatch(updateProduct(editProd));
 
         navigate('/');
     }
