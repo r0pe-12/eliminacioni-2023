@@ -9,7 +9,7 @@ const ProductSingle = (props) => {
     const id = params.id
 
 
-    const product = useSelector(state => state.products.filter(products => products.id === parseInt(id))[0]);
+    const product = useSelector(state => state.products.products.filter(products => products.id === parseInt(id))[0]);
 
     const [pic, setPic] = useState(product.thumbnail);
 

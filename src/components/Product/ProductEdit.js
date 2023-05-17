@@ -10,7 +10,7 @@ const ProductEdit = () => {
 
     let navigate = useNavigate();
 
-    const product = useSelector(state => state.products.filter(products => products.id === parseInt(id))[0]);
+    const product = useSelector(state => state.products.products.filter(products => products.id === parseInt(id))[0]);
 
     const [editProd, setEditProd] = useState(product);
 

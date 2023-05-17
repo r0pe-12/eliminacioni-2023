@@ -21,7 +21,7 @@ const ProductItem = (props) => {
                     <div className={'row g-3'}>
                         <button onClick={() => {navigate(`/product/${prod.id}`)}} className={'btn btn-light'}>View Details</button>
                         <button onClick={() => {navigate(`/product/edit/${prod.id}`)}} className={'btn btn-outline-secondary'}>Edit</button>
-                        <button className={'btn btn-outline-danger'}>Delete</button>
+                        <button className={'btn btn-outline-danger'} onClick={() => {props.delete(prod.id)}}>Delete</button>
                     </div>
                 </div>
             </div>

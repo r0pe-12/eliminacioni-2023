@@ -1,11 +1,18 @@
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {useState} from "react";
 import ProductItem from "./components/ProductItem";
 import NavBar from "./components/UI/NavBar";
+import {useNavigate} from "react-router-dom";
+import {deleteProduct} from "./Store";
 
 const Home = (props) => {
-    const products = useSelector(state => state.products);
+    const products = useSelector(state => state.products.products);
+
+    const dispatch = useDispatch();
+
     let length = products.length;
+
+    const navigate = useNavigate();
 
     let displayCount;
     if (length > 9) {
@@ -24,6 +31,16 @@ const Home = (props) => {
                 return prevState = length;
             }
         });
+    }
+
+    const deleteHandler = (id) => {
+        fetch(`https://dummyjson.com/products/${id}`, {
+            method: 'DELETE',
+        })
+            .then(res => res.json())
+            // .then(console.log);
+        dispatch(deleteProduct(id));
+        navigate('/')
     }
 
     // const isLoading = () => {
@@ -46,7 +63,7 @@ const Home = (props) => {
                 <section className={'mt-5'}>
                     <div>
                         {products.slice(0, visible).map(product => (
-                            <ProductItem key={product.id} item={product}/>
+                            <ProductItem key={product.id} item={product} delete={deleteHandler}/>
                         ))}
                     </div>
                 </section>
