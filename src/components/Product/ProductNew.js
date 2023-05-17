@@ -1,15 +1,22 @@
 import {useNavigate} from "react-router-dom";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import NavBar from "../UI/NavBar";
 import BackButton from "../UI/BackButton";
 import {useEffect, useState} from "react";
+import {addProduct} from "../../Store";
 
 const ProductNew = () => {
     let navigate = useNavigate();
 
     const [prod, setProd] = useState([]);
 
+    const dispatch = useDispatch();
+
     const [categories, setCategories] = useState([]);
+
+    const nextId = useSelector(state => {
+        return state.products.products.slice(-1)[0].id + 1;
+    });
 
     // Function to collect data
     const getApiData = async () => {
@@ -41,13 +48,21 @@ const ProductNew = () => {
 
         fetch('https://dummyjson.com/products/add', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
                 ...prod
             })
         })
             .then(res => res.json())
-            .then(console.log);
+        // .then(console.log);
+
+        dispatch(addProduct({
+            ...prod,
+            id: nextId,
+            thumbnail: 'https://placehold.co/400',
+            images: ['https://placehold.co/400', 'https://placehold.co/400', 'https://placehold.co/400',
+            ]
+        }))
 
         navigate('/');
     }
@@ -82,7 +97,8 @@ const ProductNew = () => {
                                 <label htmlFor="discountPercentage" className={'form-label'}>Discount Percentage</label>
                                 <div className={'input-group'}>
                                     <span className={'input-group-text'}>%</span>
-                                    <input onChange={formChangeHandler} min={0} max={100.00} step={0.01} type="number" className={'form-control'}
+                                    <input onChange={formChangeHandler} min={0} max={100.00} step={0.01} type="number"
+                                           className={'form-control'}
                                            name={'discountPercentage'}
                                            value={prod.discountPercentage}/>
                                 </div>
