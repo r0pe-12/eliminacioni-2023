@@ -30,7 +30,7 @@ const ProductSingle = (props) => {
                                 <div className={'col-12 col-lg-2 image-preview overflow-scroll mt-4 mt-lg-0'}
                                      style={{maxHeight: '400px'}}>
                                     <div className={'row'}>
-                                        {product.images.map((img, id) => {
+                                        {product.images.length > 1 && product.images.map((img, id) => {
                                             return (
                                                 <div key={id} className={'image-wrapper col col-lg-12 mx-2 mx-lg-0 d-flex'}
                                                      onClick={() => {

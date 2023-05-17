@@ -75,7 +75,7 @@ const ProductEdit = () => {
                                 <div className={'col-12 image-preview overflow-scroll mt-4'}
                                      style={{maxHeight: '400px'}}>
                                     <div className={'row'}>
-                                        {product.images.map((img, id) => {
+                                        {product.images.length > 1 && product.images.map((img, id) => {
                                             return (
                                                 <div key={id} className={'image-wrapper col mx-2 d-flex'}
                                                      onClick={() => {
